@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8">
+        <title>問い合わせフォーム</title>
+        <link
+            rel="stylesheet"
+            href="{{ url_for('static', filename = 'style.css') }}"
+        />
+    </head>
+    <body>
+        <h2>問い合わせフォーム</h2>
+
+        {% with messages = get_flashed_messages() %} <!--フラッシュメッセージのリストを取得し、そのリストをmessages変数に代入する。get_flashed_messages()はflash関数を使って設定されたメッセージを取得する。messages変数の使用可能範囲をwithステートメント内だけに限定。-->
+        {% if messages %}
+        <ul>
+            {% for message in messages %}
+            <li class="flash">{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% endwith %}
+
+        <form
+            action="{{ url_for('contact_complete') }}" 
+            method="POST"
+            novalidate="novalidate"
+        >
+            <table>
+                <tr>
+                    <td>ユーザー名</td>
+                    <td>
+                        <input
+                            type="text"
+                            name="username"
+                            value="{{ username }}"
+                            placeholder="ユーザ名"
+                        />
+                    </td>
+                </tr>
+                <tr>
+                    <td>メールアドレス</td>
+                    <td>
+                        <input
+                            type="text"
+                            name="email"
+                            value="{{ email }}"
+                            placeholder="メールアドレス"
+                        />
+                    </td>
+                </tr>
+                <tr>
+                    <td>問い合わせ内容</td>
+                    <td>
+                        <textarea name="description" placeholder="問い合わせ内容">{{ description }}</textarea>
+                    </td>
+                </tr>
+            </table>
+            <input type="submit" value="問い合わせ" />
+        </form>
+    </body>
+</html>
